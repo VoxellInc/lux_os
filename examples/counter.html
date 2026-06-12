@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>featherweight — cross-device counter</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 28rem; margin: 4rem auto; padding: 0 1rem; }
+  .count { font-size: 4rem; font-weight: 800; margin: 1rem 0; }
+  button { font: inherit; padding: .5rem 1.2rem; border-radius: 10px; border: 1px solid #ccc; cursor: pointer; }
+  .status { color: #888; font-size: .85rem; margin-top: 1rem; }
+</style>
+</head>
+<body>
+  <h1>Cross-device counter</h1>
+  <p>Open this page on two devices (with the edge endpoint deployed). The count follows you.</p>
+  <div class="count" id="count">0</div>
+  <button id="dec">−</button>
+  <button id="inc">+</button>
+  <div class="status" id="status">…</div>
+
+  <script type="module">
+    import { featherweight } from '../src/featherweight.js';
+
+    const el = document.getElementById('count');
+    const status = document.getElementById('status');
+    let n = 0;
+
+    // One shared doc id; swap '/api/featherweight' for your Worker URL if needed.
+    const store = featherweight('demo-counter', {
+      onStatus: s => { status.textContent = s; },
+    });
+
+    function render() { el.textContent = n; }
+
+    // Local-first: shows cached value instantly, then the newer remote value.
+    store.load(data => { if (data && typeof data.n === 'number') { n = data.n; render(); } });
+
+    document.getElementById('inc').onclick = () => { n++; render(); store.save({ n }); };
+    document.getElementById('dec').onclick = () => { n--; render(); store.save({ n }); };
+    addEventListener('pagehide', () => store.flush());
+  </script>
+</body>
+</html>

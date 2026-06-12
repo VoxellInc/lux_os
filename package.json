@@ -1,0 +1,36 @@
+{
+  "name": "@voxell/featherweight",
+  "version": "0.1.0",
+  "description": "Cross-device state for static sites — local-first, synced through a dumb edge key-value store. No framework, ~1 KB.",
+  "type": "module",
+  "main": "src/featherweight.js",
+  "module": "src/featherweight.js",
+  "exports": {
+    ".": "./src/featherweight.js"
+  },
+  "files": [
+    "src",
+    "edge",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "local-first",
+    "static-site",
+    "edge",
+    "cloudflare",
+    "kv",
+    "persistence",
+    "offline",
+    "cross-device",
+    "no-framework",
+    "lightweight"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VoxellInc/featherweight.git"
+  },
+  "author": "Jonathan Corners",
+  "license": "MIT",
+  "sideEffects": false
+}
